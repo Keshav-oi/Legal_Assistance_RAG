@@ -1,0 +1,33 @@
+services:
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-pipeline
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model from host (read-only) — avoids baking 5GB into the image
+      - ./models:/app/models:ro
+      # Persist uploaded documents across container restarts
+      - ./data/documents:/app/data/documents
+      # Persist FAISS index across container restarts
+      - ./data/faiss_index:/app/data/faiss_index
+    environment:
+      - MODEL_DIR=/app/models
+      - DOCUMENTS_DIR=/app/data/documents
+      - FAISS_INDEX_DIR=/app/data/faiss_index
+      # CPU-only inside Docker (Metal not available in Docker on macOS)
+      - MODEL_N_GPU_LAYERS=0
+      - MODEL_N_CTX=4096
+      - MODEL_N_BATCH=512
+      - APP_HOST=0.0.0.0
+      - APP_PORT=8000
+    restart: unless-stopped
+    # Model loading can take 30-60s on CPU
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 10s
+      start_period: 120s
+      retries: 3
