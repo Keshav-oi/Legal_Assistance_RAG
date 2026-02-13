@@ -308,6 +308,3 @@ Use **Q4_K_M** or **Q5_K_M** quantizations for the best speed/quality tradeoff.
 
 ---
 
-## License
-
-MIT
