@@ -307,4 +307,3 @@ Use **Q4_K_M** or **Q5_K_M** quantizations for the best speed/quality tradeoff.
 → The model directory is mounted as read-only (`:ro`). Ensure the file exists before starting the container.
 
 ---
-
