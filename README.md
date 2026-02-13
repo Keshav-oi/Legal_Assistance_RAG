@@ -6,7 +6,7 @@ Upload documents, index them into a vector store, and ask questions — all runn
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![LangChain](https://img.shields.io/badge/LangChain-0.3-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+
 
 ---
 
