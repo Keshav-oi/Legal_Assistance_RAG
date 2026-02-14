@@ -1,0 +1,12 @@
+
+# models
+models/
+*.gguf
+*.bin
+*.pt
+*.safetensors
+faiss_index/
+.cache/
+__pycache__/
+.env
+.DS_Store

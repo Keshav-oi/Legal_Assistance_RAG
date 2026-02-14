@@ -58,17 +58,23 @@ def get_hf_token(interactive: bool = False) -> str | None:
     return None
 
 
-def download_model(token: str | None = None) -> Path:
+def download_model(
+    token: str | None = None,
+    repo_id: str = HF_REPO_ID,
+    filename: str = MODEL_FILENAME,
+) -> Path:
     """
     Download the GGUF model file if it does not already exist.
 
     Args:
-        token: Optional HuggingFace API token for gated repos.
+        token:    Optional HuggingFace API token for gated repos.
+        repo_id:  HuggingFace repo to download from.
+        filename: Name of the GGUF file in the repo.
 
     Returns:
         Path to the downloaded model file.
     """
-    model_path = MODEL_DIR / MODEL_FILENAME
+    model_path = MODEL_DIR / filename
 
     # --- Check if model already exists ---
     if model_path.exists():
@@ -83,8 +89,8 @@ def download_model(token: str | None = None) -> Path:
 
     # --- Download ---
     print(f"📥 Downloading model...")
-    print(f"   Repo:     {HF_REPO_ID}")
-    print(f"   File:     {MODEL_FILENAME}")
+    print(f"   Repo:     {repo_id}")
+    print(f"   File:     {filename}")
     print(f"   Dest:     {model_path}")
     print()
 
@@ -92,8 +98,8 @@ def download_model(token: str | None = None) -> Path:
         from huggingface_hub import hf_hub_download
 
         downloaded_path = hf_hub_download(
-            repo_id=HF_REPO_ID,
-            filename=MODEL_FILENAME,
+            repo_id=repo_id,
+            filename=filename,
             local_dir=str(MODEL_DIR),
             local_dir_use_symlinks=False,
             token=token,
@@ -146,15 +152,11 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    # Allow CLI overrides
-    global HF_REPO_ID, MODEL_FILENAME
-    if args.repo:
-        HF_REPO_ID = args.repo
-    if args.filename:
-        MODEL_FILENAME = args.filename
+    repo_id = args.repo if args.repo else HF_REPO_ID
+    filename = args.filename if args.filename else MODEL_FILENAME
 
     token = get_hf_token(interactive=args.token)
-    download_model(token=token)
+    download_model(token=token, repo_id=repo_id, filename=filename)
 
 
 if __name__ == "__main__":
