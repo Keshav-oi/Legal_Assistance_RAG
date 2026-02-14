@@ -9,7 +9,7 @@ End-to-end RAG pipeline running locally — Llama 3.1 8B, LangChain, FAISS, Fast
 ### Step 1: Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/rag-pipeline.git
+git clone https://github.com/Keshav-oi/Legal_Assistance_RAG.git
 cd rag-pipeline
 ```
 
@@ -43,22 +43,6 @@ python download_model.py
 
 Skips download if the model already exists. For gated models: `HF_TOKEN=hf_your_token python download_model.py`
 
-### Step 6: Set up the folder structure
-
-```bash
-mkdir -p app/rag app/ui app/api
-touch app/__init__.py app/rag/__init__.py app/ui/__init__.py app/api/__init__.py
-```
-
-Then place the files in the correct locations:
-
-```
-app/                → __init__.py, main.py, config.py
-app/rag/            → __init__.py, llm.py, document_loader.py, vector_store.py, chain.py
-app/ui/             → __init__.py, tab_documents.py, tab_query.py, tab_history.py
-app/api/            → __init__.py, routes.py
-root (project dir)  → download_model.py, diagnose.py, requirements.txt, Dockerfile, docker-compose.yml
-```
 
 ### Step 7: Run diagnostics
 
